@@ -1,0 +1,102 @@
+[
+  {
+    "name": "Introduction to Algorithms",
+    "type": "Computer Science",
+    "borrowed": false
+  },
+  {
+    "name": "Mastering React and Modern Frontend",
+    "type": "Software Development",
+    "borrowed": false
+  },
+  {
+    "name": "The 8051 Microcontroller and Embedded Systems",
+    "type": "Engineering",
+    "borrowed": true
+  },
+  {
+    "name": "MongoDB: The Definitive Guide",
+    "type": "Database Management",
+    "borrowed": false
+  },
+  {
+    "name": "Competitive Programming and Algorithm Analysis",
+    "type": "Computer Science",
+    "borrowed": false
+  },
+  {
+    "name": "The Art of Indian Cinema: Directors and Legends",
+    "type": "Entertainment",
+    "borrowed": false
+  },
+  {
+    "name": "Cricket Analytics: Decoding the Game",
+    "type": "Sports",
+    "borrowed": true
+  },
+  {
+    "name": "Formula 1: The Anatomy of Speed",
+    "type": "Sports",
+    "borrowed": false
+  },
+  {
+    "name": "A Developer's Guide to Peer Learning Systems",
+    "type": "Software Development",
+    "borrowed": false
+  },
+  {
+    "name": "Backpacking India: From the Ghats of Rishikesh to Coorg",
+    "type": "Travel",
+    "borrowed": false
+  },
+  {
+    "name": "The Secret History of Biryani",
+    "type": "Culinary",
+    "borrowed": false
+  },
+  {
+    "name": "Advanced CSS and HTML5 Layouts",
+    "type": "Web Development",
+    "borrowed": true
+  },
+  {
+    "name": "Data Structures in Java",
+    "type": "Computer Science",
+    "borrowed": false
+  },
+  {
+    "name": "Designing Interactive Web Applications",
+    "type": "Web Development",
+    "borrowed": false
+  },
+  {
+    "name": "Thomas Cup: A Historic Triumph",
+    "type": "Sports",
+    "borrowed": false
+  },
+  {
+    "name": "JavaScript: The Good Parts",
+    "type": "Software Development",
+    "borrowed": true
+  },
+  {
+    "name": "Clean Code: A Handbook of Agile Software Craftsmanship",
+    "type": "Software Development",
+    "borrowed": false
+  },
+  {
+    "name": "Embedded Assembly Language Programming",
+    "type": "Engineering",
+    "borrowed": false
+  },
+  {
+    "name": "The Great Indian Grand Prix",
+    "type": "Sports",
+    "borrowed": false
+  },
+  {
+    "name": "Architecting Campus Networking Platforms",
+    "type": "Technology",
+    "borrowed": true
+  }
+]

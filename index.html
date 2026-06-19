@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library & Staff Management</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #121212;
+            color: #ffffff;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            width: 100%;
+            max-width: 900px;
+            background-color: #1e1e1e;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            flex: 1;
+        }
+        h1 { text-align: center; color: #4CAF50; margin-bottom: 10px; }
+        
+        /* Tab System */
+        .tabs { display: flex; gap: 10px; margin-bottom: 25px; }
+        .tab-btn {
+            flex: 1; padding: 15px; background-color: #2c2c2c; color: white;
+            border: none; border-radius: 8px; font-size: 1.1em; cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .tab-btn.active { background-color: #4CAF50; font-weight: bold; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+
+        /* Forms */
+        form { display: flex; gap: 10px; margin-bottom: 30px; }
+        input {
+            flex: 1; padding: 12px; border: 1px solid #333; border-radius: 5px;
+            background-color: #2c2c2c; color: white;
+        }
+        .submit-btn {
+            padding: 12px 25px; background-color: #4CAF50; color: white;
+            border: none; border-radius: 5px; cursor: pointer; font-weight: bold;
+        }
+        .submit-btn:hover { background-color: #45a049; }
+
+        /* Cards & Lists */
+        .list-container { display: flex; flex-direction: column; gap: 15px; }
+        .card {
+            background-color: #2c2c2c; padding: 15px; border-radius: 8px;
+            display: flex; justify-content: space-between; align-items: center;
+            border-left: 5px solid #4CAF50;
+        }
+        .card.borrowed { border-left: 5px solid #ff9800; opacity: 0.8; }
+        .card.staff-card { border-left: 5px solid #9c27b0; }
+        
+        .card-details h3 { margin: 0 0 5px 0; display: flex; align-items: center; gap: 10px; }
+        .card-details p { margin: 5px 0 0 0; color: #aaa; font-size: 0.9em; }
+        .time-log { color: #4CAF50; font-family: monospace; font-size: 1em; margin-top: 5px; }
+
+        /* Badges & Buttons */
+        .badge { font-size: 0.7em; padding: 3px 8px; border-radius: 12px; text-transform: uppercase; font-weight: bold; }
+        .badge.available { background-color: rgba(76, 175, 80, 0.2); color: #4CAF50; }
+        .badge.borrowed { background-color: rgba(255, 152, 0, 0.2); color: #ff9800; }
+        .badge.dept { background-color: rgba(156, 39, 176, 0.2); color: #e1bee7; }
+
+        .actions { display: flex; gap: 10px; }
+        button { padding: 8px 15px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; color: white; }
+        .action-btn { background-color: #2196F3; }
+        .action-btn:hover { background-color: #1976D2; }
+        .return-btn { background-color: #ff9800; }
+        .return-btn:hover { background-color: #f57c00; }
+        .delete-btn { background-color: #ff4c4c; }
+        .delete-btn:hover { background-color: #e60000; }
+        .clock-btn { background-color: #9c27b0; }
+        .clock-btn:hover { background-color: #7b1fa2; }
+
+        footer { margin-top: auto; padding: 20px 0; text-align: center; color: #888; width: 100%; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Management Dashboard</h1>
+
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('books')">Library Books</button>
+            <button class="tab-btn" onclick="switchTab('staff')">Staff & Employees</button>
+        </div>
+        
+        <div id="booksTab" class="tab-content active">
+            <form id="bookForm">
+                <input type="text" id="bookName" placeholder="Book Name" required>
+                <input type="text" id="bookType" placeholder="Book Type (e.g., Fiction, Tech)" required>
+                <button type="submit" class="submit-btn">Add Book</button>
+            </form>
+            <div class="list-container" id="bookList"></div>
+        </div>
+
+        <div id="staffTab" class="tab-content">
+            <form id="staffForm">
+                <input type="text" id="staffName" placeholder="Employee Name" required>
+                <input type="text" id="staffDept" placeholder="Department (e.g., Librarian, Maintenance)" required>
+                <button type="submit" class="submit-btn">Add Staff</button>
+            </form>
+            <div class="list-container" id="staffList"></div>
+        </div>
+
+    </div>
+
+    <footer>&copy; 2026 Library & Staff Management System</footer>
+
+    <script>
+        const BOOK_API = 'http://localhost:8080/api/books';
+        const STAFF_API = 'http://localhost:8080/api/employees';
+
+        // --- TAB LOGIC ---
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            
+            document.getElementById(tabName + 'Tab').classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        // --- STAFF LOGIC ---
+        async function fetchStaff() {
+            const response = await fetch(STAFF_API);
+            const staff = await response.json();
+            const staffList = document.getElementById('staffList');
+            staffList.innerHTML = '';
+
+            staff.forEach(emp => {
+                const card = document.createElement('div');
+                card.className = 'card staff-card';
+                card.innerHTML = `
+                    <div class="card-details">
+                        <h3>${emp.name} <span class="badge dept">${emp.department}</span></h3>
+                        <p>ID: ${emp.id}</p>
+                        <div class="time-log">In: ${emp.inTime} <br> Out: ${emp.outTime}</div>
+                    </div>
+                    <div class="actions">
+                        <button class="clock-btn" onclick="clockIn('${emp.id}')">Clock In</button>
+                        <button class="return-btn" onclick="clockOut('${emp.id}')">Clock Out</button>
+                        <button class="delete-btn" onclick="deleteStaff('${emp.id}')">Remove</button>
+                    </div>
+                `;
+                staffList.appendChild(card);
+            });
+        }
+
+        document.getElementById('staffForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const name = document.getElementById('staffName').value;
+            const department = document.getElementById('staffDept').value;
+            await fetch(STAFF_API, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name, department }) });
+            document.getElementById('staffForm').reset();
+            fetchStaff();
+        });
+
+        async function clockIn(id) { await fetch(`${STAFF_API}/${id}/clock-in`, { method: 'PUT' }); fetchStaff(); }
+        async function clockOut(id) { await fetch(`${STAFF_API}/${id}/clock-out`, { method: 'PUT' }); fetchStaff(); }
+        async function deleteStaff(id) { await fetch(`${STAFF_API}/${id}`, { method: 'DELETE' }); fetchStaff(); }
+
+        // --- BOOK LOGIC (Unchanged functionality, updated CSS class names) ---
+        async function fetchBooks() {
+            const response = await fetch(BOOK_API);
+            const books = await response.json();
+            const bookList = document.getElementById('bookList');
+            bookList.innerHTML = '';
+
+            books.forEach(book => {
+                const cardClass = book.borrowed ? 'card borrowed' : 'card';
+                const badgeHtml = book.borrowed ? '<span class="badge borrowed">Borrowed</span>' : '<span class="badge available">Available</span>';
+                const actionBtn = book.borrowed 
+                    ? `<button class="return-btn" onclick="returnBook('${book.id}')">Return</button>`
+                    : `<button class="action-btn" onclick="borrowBook('${book.id}')">Borrow</button>`;
+
+                const card = document.createElement('div');
+                card.className = cardClass;
+                card.innerHTML = `
+                    <div class="card-details">
+                        <h3>${book.name} ${badgeHtml}</h3>
+                        <p>Type: ${book.type} | ID: ${book.id}</p>
+                    </div>
+                    <div class="actions">
+                        ${actionBtn}
+                        <button class="delete-btn" onclick="deleteBook('${book.id}')">Delete</button>
+                    </div>
+                `;
+                bookList.appendChild(card);
+            });
+        }
+
+        document.getElementById('bookForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const name = document.getElementById('bookName').value;
+            const type = document.getElementById('bookType').value;
+            await fetch(BOOK_API, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name, type }) });
+            document.getElementById('bookForm').reset();
+            fetchBooks();
+        });
+
+        async function deleteBook(id) { await fetch(`${BOOK_API}/${id}`, { method: 'DELETE' }); fetchBooks(); }
+        async function borrowBook(id) { await fetch(`${BOOK_API}/${id}/borrow`, { method: 'PUT' }); fetchBooks(); }
+        async function returnBook(id) { await fetch(`${BOOK_API}/${id}/return`, { method: 'PUT' }); fetchBooks(); }
+
+        // Initial Load
+        fetchBooks();
+        fetchStaff();
+    </script>
+</body>
+</html>

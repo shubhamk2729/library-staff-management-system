@@ -1,0 +1,22 @@
+library-system/
+├── pom.xml
+├── src/
+│   ├── main/
+│   │   ├── java/
+│   │   │   └── com/
+│   │   │       └── example/
+│   │   │           └── library/
+│   │   │               ├── LibraryApplication.java
+│   │   │               ├── controller/
+│   │   │               │   ├── BookController.java
+│   │   │               │   └── EmployeeController.java   
+│   │   │               ├── model/
+│   │   │               │   ├── Book.java
+│   │   │               │   └── Employee.java             
+│   │   │               └── repository/
+│   │   │                   ├── BookRepository.java
+│   │   │                   └── EmployeeRepository.java   s
+│   │   └── resources/
+│   │       └── application.properties
+└── frontend/
+    └── index.html

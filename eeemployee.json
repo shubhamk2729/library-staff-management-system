@@ -1,0 +1,92 @@
+[
+  {
+    "name": "Rajesh Kumar",
+    "department": "Head Librarian",
+    "inTime": "Not Clocked In",
+    "outTime": "Not Clocked Out"
+  },
+  {
+    "name": "Priya Sharma",
+    "department": "Assistant Librarian",
+    "inTime": "Not Clocked In",
+    "outTime": "Not Clocked Out"
+  },
+  {
+    "name": "Amit Patel",
+    "department": "IT Support",
+    "inTime": "Not Clocked In",
+    "outTime": "Not Clocked Out"
+  },
+  {
+    "name": "Sneha Gupta",
+    "department": "Archival Specialist",
+    "inTime": "Not Clocked In",
+    "outTime": "Not Clocked Out"
+  },
+  {
+    "name": "Vikram Singh",
+    "department": "Security",
+    "inTime": "Not Clocked In",
+    "outTime": "Not Clocked Out"
+  },
+  {
+    "name": "Anjali Desai",
+    "department": "Circulation Desk",
+    "inTime": "Not Clocked In",
+    "outTime": "Not Clocked Out"
+  },
+  {
+    "name": "Rohan Mehta",
+    "department": "Maintenance",
+    "inTime": "Not Clocked In",
+    "outTime": "Not Clocked Out"
+  },
+  {
+    "name": "Kavita Reddy",
+    "department": "Children's Section",
+    "inTime": "Not Clocked In",
+    "outTime": "Not Clocked Out"
+  },
+  {
+    "name": "Suresh Iyer",
+    "department": "Acquisitions",
+    "inTime": "Not Clocked In",
+    "outTime": "Not Clocked Out"
+  },
+  {
+    "name": "Neha Verma",
+    "department": "Event Coordinator",
+    "inTime": "Not Clocked In",
+    "outTime": "Not Clocked Out"
+  },
+  {
+    "name": "Manoj Tiwari",
+    "department": "Security",
+    "inTime": "Not Clocked In",
+    "outTime": "Not Clocked Out"
+  },
+  {
+    "name": "Pooja Joshi",
+    "department": "Reference Librarian",
+    "inTime": "Not Clocked In",
+    "outTime": "Not Clocked Out"
+  },
+  {
+    "name": "Arjun Nair",
+    "department": "IT Support",
+    "inTime": "Not Clocked In",
+    "outTime": "Not Clocked Out"
+  },
+  {
+    "name": "Meera Chawla",
+    "department": "Janitorial Staff",
+    "inTime": "Not Clocked In",
+    "outTime": "Not Clocked Out"
+  },
+  {
+    "name": "Karan Malhotra",
+    "department": "Administration",
+    "inTime": "Not Clocked In",
+    "outTime": "Not Clocked Out"
+  }
+]
