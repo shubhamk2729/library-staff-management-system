@@ -1,96 +1,103 @@
-# 📚 Library & Staff Management System
+# Library & Staff Management System
 
-A full-stack management system for tracking library books and staff attendance, built with a Spring Boot REST API backend and a MongoDB database, with a vanilla JS frontend that talks directly to the API.
+A full-stack management dashboard combining a library catalog and a staff
+attendance system, built as one integrated app with a Spring Boot + MongoDB
+backend and a vanilla JavaScript frontend.
+
+## Preview
+
+*(Add 1-2 screenshots from the `screenshot/` folder here, e.g.)*
+```markdown
+![Dashboard - Books tab](screenshot/books-tab.png)
+![Dashboard - Staff tab](screenshot/staff-tab.png)
+```
 
 ## Features
 
-**Book Management**
-- Add and remove books from the catalog, each tagged with a name and type
-- Mark books as borrowed / returned with a single action
-- Live view of the full catalog and its borrow status
+**Library catalog**
+- Add a book (name + type/genre)
+- Borrow / return a book, with a live "Available" / "Borrowed" status badge
+- Delete a book from the catalog
 
-**Staff Attendance**
-- Add and remove employee records with name and department
-- **Clock-in / clock-out system** — timestamps are generated server-side (`yyyy-MM-dd hh:mm a` format) whenever a staff member clocks in or out, so records reflect actual system time rather than manual entry
-- Track each employee's current shift status at a glance
+**Staff management**
+- Add an employee (name + department)
+- Clock in / clock out, with in-time and out-time logged per employee
+- Remove an employee
 
-## Tech Stack
+Both tabs live in a single dashboard and talk to their own REST resource
+independently.
 
-- **Backend:** Java, Spring Boot, Spring Web (REST controllers)
-- **Database:** MongoDB (via Spring Data MongoDB)
-- **Frontend:** HTML, CSS, vanilla JavaScript — calls the REST API directly with `fetch`, no framework
-- **Build tool:** Maven (`pom.xml`)
+## Tech stack
 
-## API Endpoints
+- **Backend:** Java, Spring Boot 3.2.4 (`spring-boot-starter-web`,
+  `spring-boot-starter-data-mongodb`)
+- **Database:** MongoDB
+- **Frontend:** Vanilla HTML/CSS/JavaScript (no framework, no build step —
+  just `fetch()` calls against the REST API)
 
-**Books** (`/api/books`)
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/api/books` | List all books |
-| POST | `/api/books` | Add a new book |
-| DELETE | `/api/books/{id}` | Remove a book |
-| PUT | `/api/books/{id}/borrow` | Mark a book as borrowed |
-| PUT | `/api/books/{id}/return` | Mark a book as returned |
+## API endpoints
 
-**Employees** (`/api/employees`)
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/api/employees` | List all employees |
-| POST | `/api/employees` | Add a new employee |
-| DELETE | `/api/employees/{id}` | Remove an employee |
-| PUT | `/api/employees/{id}/clock-in` | Clock in (server-timestamped) |
-| PUT | `/api/employees/{id}/clock-out` | Clock out (server-timestamped) |
+| Method | Endpoint                          | Description              |
+|--------|------------------------------------|---------------------------|
+| GET    | `/api/books`                      | List all books            |
+| POST   | `/api/books`                      | Add a book                |
+| PUT    | `/api/books/{id}/borrow`          | Mark a book as borrowed   |
+| PUT    | `/api/books/{id}/return`          | Mark a book as returned   |
+| DELETE | `/api/books/{id}`                 | Delete a book             |
+| GET    | `/api/employees`                  | List all employees        |
+| POST   | `/api/employees`                  | Add an employee           |
+| PUT    | `/api/employees/{id}/clock-in`    | Log clock-in time         |
+| PUT    | `/api/employees/{id}/clock-out`   | Log clock-out time        |
+| DELETE | `/api/employees/{id}`             | Remove an employee        |
 
-## Getting Started
+## Setup
 
-**Prerequisites:** Java, Maven, and a running MongoDB instance on `localhost:27017`
+**Prerequisites:** Java 17+, Maven, and a running MongoDB instance (local or
+a connection string to one).
 
-1. Clone the repo:
+1. Configure your MongoDB connection in
+   `src/main/resources/application.properties`
+2. Run the backend:
    ```bash
-   git clone https://github.com/shubhamk2729/library-staff-management-system.git
+   ./mvnw spring-boot:run
    ```
-2. Start MongoDB locally (default connection expected at `mongodb://localhost:27017/librarydb`)
-3. Run the Spring Boot app:
-   ```bash
-   mvn spring-boot:run
-   ```
-4. Open `index.html` (in the `frontend` folder) in your browser — it connects directly to the API at `localhost:8080`
+   This starts the API on `http://localhost:8080`
+3. Open `index.html` directly in a browser (it calls the API at
+   `localhost:8080` directly — no separate frontend server needed)
 
-## Project Structure
+## Project structure
 
 ```
 library-staff-management-system/
 ├── pom.xml
-├── src/
-│   └── main/
-│       ├── java/com/example/library/
-│       │   ├── LibraryApplication.java
-│       │   ├── controller/
-│       │   │   ├── BookController.java
-│       │   │   └── EmployeeController.java
-│       │   ├── model/
-│       │   │   ├── Book.java
-│       │   │   └── Employee.java
-│       │   └── repository/
-│       │       ├── BookRepository.java
-│       │       └── EmployeeRepository.java
-│       └── resources/
-│           └── application.properties
-├── frontend/
-│   └── index.html
-└── screenshot/
+├── src/main/java/com/example/library/
+│   ├── LibraryApplication.java
+│   ├── controller/
+│   │   ├── BookController.java
+│   │   └── EmployeeController.java
+│   ├── model/
+│   │   ├── Book.java
+│   │   └── Employee.java
+│   └── repository/
+│       ├── BookRepository.java
+│       └── EmployeeRepository.java
+├── src/main/resources/application.properties
+├── index.html                # frontend dashboard
+├── screenshot/                # preview images
+└── README.md
 ```
 
-## Project Documentation
+## Notes
 
-This project also includes a full **[Project Report](./PROJECT%20REPORT.docx)** covering design and implementation details, plus a `screenshot/` folder documenting the working application.
+- `bbbooks.json` / `eeemployee.json` are sample seed data — useful for
+  quickly populating the catalog and staff list to test with.
+- This project runs locally only; the frontend is hardcoded to
+  `localhost:8080`, so it isn't deployed anywhere.
 
-## Future Improvements
+## Possible extensions
 
-- Add authentication so book/staff management isn't open to anyone with API access
-- Input validation on the frontend and backend (currently trusts client input directly)
-- Borrow history / due dates instead of a simple boolean borrowed flag
-- Shift duration calculation from clock-in/clock-out timestamps
-
----
-Built by [Shubham Krishna](https://github.com/shubhamk2729)
+- Add authentication so only staff can access the dashboard
+- Move the hardcoded `localhost:8080` API URL into a config value so the
+  frontend can point at a deployed backend
+- Add due dates and overdue tracking for borrowed books
+- Add pagination once the catalog/staff list grows large
